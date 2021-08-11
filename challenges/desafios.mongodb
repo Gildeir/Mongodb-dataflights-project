@@ -168,3 +168,50 @@ db.voos.deleteMany({
     
   ]
 });
+
+db.voos.find({
+  $and: [
+  {"empresa.nome": "PASSAREDO"},
+  {"natureza": "Doméstica"}
+  ]
+}).count();
+
+use("dataFlight")
+const empresaNome = "LATAM AIRLINES BRASIL";
+db.resumoVoos.insertOne({
+  empresaNome,
+  totalVoosDomesticos: db.voos.find({
+    $and: [
+      {"empresa.nome": "LATAM AIRLINES BRASIL"},
+      {"natureza": "Doméstica"}
+    ]
+}).count()
+
+});
+
+db.resumoVoos.find({
+    empresaNome
+}, {
+  _id: false
+}).limit(1)
+
+const empresa = "LATAM AIRLINES BRASIL";
+db.resumoVoos.insertOne({
+  empresa,
+  totalVoosDomesticos: db.voos.find({
+    $and: [{
+        "empresa.nome": "LATAM AIRLINES BRASIL",
+      },
+      {
+        natureza: "Doméstica",
+      },
+    ],
+  }).count(),
+
+});
+
+db.resumoVoos.find({
+  empresa,
+}, {
+  _id: false,
+}).limit(1);
