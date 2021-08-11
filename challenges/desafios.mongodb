@@ -66,6 +66,6 @@ db.voos.find({
 db.voos.find({
   natureza: {$eq: "Internacional"}
 }).count();
-
-
-
+db.voos.find({
+  natureza: {$eq: "Doméstica"}
+}).count();
