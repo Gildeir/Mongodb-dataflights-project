@@ -1,2 +1,71 @@
 use ("dataFlights")
 db.voos.count();
+db.voos.find({"empresa.nome": {$eq: "AZUL"}}).limit(10);
+db.voos.find({
+  "empresa.nome": {$eq: "AZUL"}
+}).count();
+db.voos.find({
+  "empresa.nome": {$eq: "GOL"}
+}).count();
+db.voos.find(
+  {},
+  {
+    _id: 0,
+    vooId: 1,
+  }
+).skip(10).limit(3);
+db.voos.find(
+  {"vooId": {$eq: 756807}},
+  {
+    _id: 0,
+    vooId: 1,
+    empresa: {sigla: 1, nome: 1},
+    passageiros: 1
+  }
+);
+db.voos.find({
+  ano: {$lt: 2017}
+}).count();
+db.voos.find({
+  ano: {$gt: 2016}
+}).count();
+db.voos.find({
+  $and: [{
+    ano: {
+      $gte: 2017,
+      $lte: 2018,
+      },    
+  }]
+}).count();
+db.voos.find({
+  "empresa.nome": {$eq: "GOL"},
+  ano: 2017,
+}, 
+{
+  _id: 0,
+  vooId: 1,
+  empresa: {nome: 1},
+  aeroportoOrigem: {nome: 1},
+  aeroportoDestino: {nome: 1},
+  mes: 1,
+  ano: 1
+}).limit(10);
+db.voos.find({
+  "aeroportoDestino.pais": {$not: {$eq: "ESTADOS UNIDOS"}}
+}).count();
+db.voos.find({
+  $or: [
+   {"aeroportoDestino.pais": "BRASIL"},
+   {"aeroportoDestino.pais": "ARGENTINA"},
+   {"aeroportoDestino.pais": "CHILE"},
+  ]
+}).count();
+db.voos.find({
+  decolagens: {$gt: 20}
+}).count();
+db.voos.find({
+  natureza: {$eq: "Internacional"}
+}).count();
+
+
+
