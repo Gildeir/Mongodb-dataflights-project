@@ -120,16 +120,51 @@ db.voos.find({
 }).limit(1);
 
 db.voos.find({
-  $and: [
-    {"litrosCombustivel": {$lte: 600} },
-    {"litrosCombustivel": {$exists: true} },
-    {"empresa.nome": {$not: {$eq: "GOL"}}}
-    {"empresa.nome": {$not: {$eq: "AZUL"}}}
-  ]
-},{
+  $and: [{
+      litrosCombustivel: {
+        $lte: 600,
+      },
+    },
+    {
+      litrosCombustivel: {
+        $exists: true,
+      },
+    },
+    {
+      "empresa.nome": {
+        $not: {
+          $eq: "GOL",
+        },
+      },
+    }, {
+      "empresa.nome": {
+        $not: {
+          $eq: "AZUL",
+        },
+      },
+    },
+  ],
+}, {
   _id: 0,
   litrosCombustivel: 1,
-  empresa: {nome: 1},
-  vooId: 1
-}).limit(1)
+  empresa: {
+    nome: 1,
+  },
+  vooId: 1,
+}).limit(1);
 
+
+db.voos.deleteMany({
+  "empresa.nome": "AZUL",
+  "litrosCombustivel": {$lt: 400}
+});
+
+//1271
+db.voos.deleteMany({
+  $and: [
+{"empresa.nome": "GOL"},
+{"passageiros.pagos": {$lte: 10}},
+{"passageiros.pagos": {$gte: 5}},
+    
+  ]
+});
